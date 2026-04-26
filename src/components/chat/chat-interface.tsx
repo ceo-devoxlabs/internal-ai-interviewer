@@ -88,6 +88,8 @@ export function ChatInterface({ topic, onBack, className }: ChatInterfaceProps) 
         - WAIT for the candidate to respond.
         - DO NOT simulate the candidate's response.
         - Keep your responses concise and professional.
+        - Output PLAIN TEXT ONLY. Do NOT use markdown formatting (no asterisks for emphasis, no underscores, no backticks, no bold, no italics, no headings). Your output is read aloud by a TTS engine and any formatting characters get vocalized.
+        - Do NOT include any reasoning, chain-of-thought, or <think> blocks. Respond directly.
         - If the candidate answers well, ask a harder follow-up.
         - If they struggle, provide a hint.
         - If you feel the candidate has passed this stage, include "[STAGE_COMPLETE]" in your response.

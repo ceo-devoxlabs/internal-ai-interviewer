@@ -104,8 +104,23 @@ export function useSpeech() {
             window.speechSynthesis.cancel();
         }
 
+        // Strip markdown formatting so TTS doesn't vocalize "asterisk", "underscore", etc.
+        // Also strip any stray <think>...</think> reasoning blocks that some models emit.
+        const stripped = text
+            .replace(/<think>[\s\S]*?<\/think>/gi, "")
+            .replace(/```[\s\S]*?```/g, "")
+            .replace(/`([^`]*)`/g, "$1")
+            .replace(/\*\*([^*]+)\*\*/g, "$1")
+            .replace(/\*([^*]+)\*/g, "$1")
+            .replace(/__([^_]+)__/g, "$1")
+            .replace(/(^|\s)_([^_]+)_(?=\s|$|[.,!?;:])/g, "$1$2")
+            .replace(/^#{1,6}\s+/gm, "")
+            .replace(/[*_~`]/g, "")
+            .replace(/\s+/g, " ")
+            .trim();
+
         // Preprocess text for better pronunciation
-        const processedText = text
+        const processedText = stripped
             .replace(/Next\.js/gi, "Next J S")
             .replace(/Node\.js/gi, "Node J S")
             .replace(/Vue\.js/gi, "Vue J S")
